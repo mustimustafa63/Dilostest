@@ -3,64 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sadece Dilaray İçin 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Sadece Dilara'ya | Sonsuz Aşk ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Variables et Reset */
+        /* --- 1. DESIGN SYSTEM / VARIABLES --- */
         :root {
-            --primary-color: #e91e63; /* Rose profond et élégant */
-            --secondary-color: #ffcdd2; /* Rose très pâle pour le fond */
-            --accent-color: #4db6ac; /* Touche de couleur contrastante (menthe) */
-            --text-dark: #333333;
-            --text-light: #f4f4f4;
+            /* Couleurs Chaudes Basées sur le Mockup */
+            --primary-love: #ff005c; /* Rose/Rouge Vif - CTA */
+            --secondary-love: #ff3388; /* Rose Vif */
+            --background-dark: #1f010f; /* Fond très sombre, tirant sur le rouge */
+            --text-light: #f7f7f7;
+            --glass-bg: rgba(255, 255, 255, 0.08); /* Fond des cartes en Liquid Glass */
+            --shadow-intense: 0 15px 30px rgba(0, 0, 0, 0.4);
+            --border-radius-lg: 20px;
             --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Lato', sans-serif;
-            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --font-sans: 'Inter', sans-serif;
         }
 
+        /* --- 2. FOND ANIMÉ & GLOBAL --- */
         body {
             margin: 0;
             font-family: var(--font-sans);
-            color: var(--text-dark);
-            background-color: var(--secondary-color);
+            color: var(--text-light);
+            background-color: var(--background-dark);
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            position: relative;
+            z-index: 1;
         }
 
-        /* --- NAVIGATION / Onglets (Mobile First) --- */
+        /* Le fond animé (Shader style) */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--background-dark) 0%, var(--secondary-love) 30%, var(--primary-love) 70%, var(--background-dark) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 25s ease infinite;
+            opacity: 0.6; /* Assombrir pour le contraste */
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Motifs de coeurs en filigrane (Maximalisme) */
+        .heart-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff3388' fill-opacity='0.05' d='M50 85L45 80C28 64 12 49 12 35C12 21 21 12 35 12C42 12 47 16 50 21C53 16 58 12 65 12C79 12 88 21 88 35C88 49 72 64 55 80L50 85Z'/%3E%3C/svg%3E");
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        /* --- 3. NAVIGATION (MOBILE BOTTOM FIXED) --- */
         #navbar {
             display: flex;
             justify-content: space-around;
             position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 5px 0;
+            /* Liquid Glass pour la barre de navigation */
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 100;
         }
 
         .nav-item {
             flex-grow: 1;
             text-align: center;
-            padding: 15px 0;
+            padding: 10px 0;
             font-size: 0.8rem;
-            font-weight: 700;
-            color: #b0bec5;
-            transition: color 0.3s ease, background-color 0.3s ease;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
-            border-top: 3px solid transparent;
+            transition: color 0.3s ease, transform 0.2s ease;
         }
 
         .nav-item.active {
-            color: var(--primary-color);
-            border-top: 3px solid var(--primary-color);
-            background-color: #fffafa;
+            color: var(--text-light);
+            font-weight: 700;
+            border-bottom: 2px solid var(--primary-love);
         }
 
-        /* --- SECTIONS GÉNÉRALES --- */
+        /* --- 4. SECTIONS & CARTES (LIQUID GLASS) --- */
         .section {
-            padding: 80px 20px 100px 20px; /* Espace en bas pour la barre de nav */
+            padding: 80px 20px 100px 20px;
             min-height: calc(100vh - 180px);
             opacity: 0;
             transform: translateY(20px);
@@ -76,200 +117,257 @@
 
         h2 {
             font-family: var(--font-serif);
-            font-size: 2.2rem;
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
+            font-size: 2.4rem;
+            color: var(--text-light);
+            text-shadow: 0 0 10px rgba(255, 0, 92, 0.5);
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        /* --- ACCUEIL (ANA SAYFA) --- */
+        /* Style de carte Liquid Glass */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow-intense);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 0, 92, 0.2);
+        }
+        
+        .glass-card h3 {
+            font-family: var(--font-serif);
+            color: var(--secondary-love);
+            font-size: 1.5rem;
+            margin-top: 0;
+        }
+        
+        /* --- 5. COMPOSANTS SPÉCIFIQUES --- */
+
+        /* ACCUEIL */
         #home {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #ffffff 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding-top: 40vh; /* Pour centrer le texte */
+            padding-top: 40vh;
         }
 
         #home-title {
             font-family: var(--font-serif);
-            font-size: 3rem;
-            color: var(--text-dark);
+            font-size: 3.5rem;
+            color: var(--text-light);
+            text-shadow: 0 0 20px var(--primary-love);
             margin-bottom: 10px;
+            line-height: 1.1;
         }
 
-        #home-subtitle {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            font-weight: 300;
-            margin-bottom: 30px;
-        }
-
-        .reveal-btn {
-            background-color: var(--primary-color);
-            color: white;
+        .cta-btn {
+            background: linear-gradient(90deg, var(--secondary-love) 0%, var(--primary-love) 100%);
+            color: var(--text-light);
             border: none;
-            padding: 12px 30px;
+            padding: 15px 40px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: var(--shadow-light);
+            box-shadow: 0 10px 20px rgba(255, 0, 92, 0.4);
             transition: all 0.3s ease;
+            margin-top: 30px;
         }
 
-        .reveal-btn:hover {
-            background-color: #c2185b;
-            transform: translateY(-2px);
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 0, 92, 0.6);
         }
 
-        /* --- HIKAYEMIZ et SÖZLER --- */
-        .story-item {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-light);
-            transition: transform 0.3s ease;
-        }
-        
-        .story-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .story-item h3 {
-            color: var(--accent-color);
-            font-size: 1.3rem;
-            margin-top: 0;
-            border-bottom: 1px dashed var(--secondary-color);
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-        }
-
-        .story-image {
+        /* HIKAYEMIZ (Timeline - Minimaliste sur mobile) */
+        .story-item img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-top: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
         }
         
-        /* --- GALERIE (AŞK GALERİSİ) --- */
+        /* GALERI (Grid) */
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Deux colonnes sur mobile */
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px;
         }
 
         .gallery-photo {
             width: 100%;
-            height: 150px;
+            height: 160px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: var(--shadow-light);
             transition: transform 0.3s ease;
+            border: 3px solid var(--secondary-love); /* Bordure pour l'impact */
         }
 
         .gallery-photo:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
+            z-index: 50;
+        }
+        
+        /* SÖZLER (Promesses - Style Impact) */
+        #promises .glass-card {
+             border: 1px solid var(--primary-love);
+        }
+
+        .promise-icon {
+            color: var(--primary-love);
+            font-size: 2rem;
+            float: left;
+            margin-right: 15px;
+        }
+
+        /* DERNIÈRE SECTION (CLOSER) */
+        #closer-message {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text-light);
+            text-shadow: 0 0 15px var(--primary-love);
+        }
+
+        .secondary-btn {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--primary-love);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .secondary-btn:hover {
+            background-color: var(--primary-love);
         }
 
     </style>
 </head>
 <body>
 
+    <div class="animated-bg"></div>
+    <div class="heart-pattern"></div>
+
     <nav id="navbar">
         <div class="nav-item active" onclick="showSection('home', this)">Ana Sayfa</div>
         <div class="nav-item" onclick="showSection('story', this)">Hikayemiz</div>
         <div class="nav-item" onclick="showSection('gallery', this)">Galeri</div>
-        <div class="nav-item" onclick="showSection('promises', this)">Sözler</div>
+        <div class="nav-item" onclick="showSection('promises', this)">Sözlerim</div>
+        <div class="nav-item" onclick="showSection('closer', this)">Sonsuz Aşk</div>
     </nav>
 
     <section id="home" class="section active">
-        <h1 id="home-title">Sevgili Dilaray'ıma</h1>
-        <p id="home-subtitle">Mustafa'dan Sonsuz Aşkın İfadesi</p>
-        <button class="reveal-btn" onclick="showSection('story', document.querySelector('.nav-item:nth-child(2)'))">Aşk Sayfasına Geç 💖</button>
+        <h1 id="home-title">Sadece Sensin, Dilara'm</h1>
+        <p style="font-size: 1.2rem; font-weight: 300;">Bu site, senin için kalbimde büyüyen sonsuz aşkın bir yansımasıdır.</p>
+        <button class="cta-btn" onclick="showSection('story', document.querySelector('.nav-item:nth-child(2)'))">Hikayemizi Keşfet ❤️</button>
     </section>
 
     <section id="story" class="section">
-        <h2>💖 Hikayemiz </h2>
+        <h2>💖 Hikayemizin Başlangıcı</h2>
         
-        <div class="story-item">
-            <h3>İlk Bakışta Aşk?</h3>
-            <p>O gün seni ilk gördüğümde hayatımın değişeceğini anladım. O andan itibaren, her şey daha parlak, daha anlamlı oldu. Sen benim mucizemdin.</p>
-            <img class="story-image" src="hikaye_1.jpg" alt="Photo de votre rencontre">
+        <div class="glass-card story-item">
+            <h3>İlk Bakış: Bütün Hayatımı Değiştiren An</h3>
+            <p>Seni ilk gördüğüm anı asla unutmayacağım. O an, tüm kâinatın sadece senin etrafında döndüğünü hissettim. İşte o zaman, kaderimiz mühürlendi.</p>
+            <img class="story-image" src="hikaye_1.jpg" alt="Photo du premier moment">
         </div>
 
-        <div class="story-item">
-            <h3>Unutulmaz Anlar</h3>
-            <p>...tarihinde yaptığımız o ilk seyahat, paylaştığımız tüm kahkahalar ve sessiz anlar... Her biri kalbimin en değerli hatıraları.</p>
-            <img class="story-image" src="hikaye_2.jpg" alt="Photo de voyage">
+        <div class="glass-card story-item">
+            <h3>İlk Kahkahamız: ...tarihinde</h3>
+            <p>Birlikte geçirdiğimiz her an değerli, ama o ilk büyük kahkahamız benim için bir dönüm noktasıydı. O gün, mutluluğun sadece seninle mümkün olduğunu anladım.</p>
+            <img class="story-image" src="hikaye_2.jpg" alt="Photo de rire">
         </div>
         
-        <div class="story-item">
-            <h3>Birlikte Bir Ömür</h3>
-            <p>Seninle her saniyeyi seviyorum. Daha nice güzel anılar biriktirmek, seninle yaşlanmak istiyorum. İyi ki varsın.</p>
+        <div class="glass-card story-item">
+            <h3>Sonsuza Giden Yolculuk</h3>
+            <p>Her zorlukta el ele, her başarıda yan yana. Bizim hikayemiz sadece başladı. Bundan sonraki her bölümü birlikte yazacağız.</p>
         </div>
     </section>
 
     <section id="gallery" class="section">
-        <h2>📸 Aşk Galerisi</h2>
-        <p style="text-align: center; margin-bottom: 20px;">En sevdiğim anılarımızdan sadece birkaçı...</p>
-        
-        <div class="photo-grid">
-            <img class="gallery-photo" src="galeri_1.jpg" alt="Photo de couple 1">
-            <img class="gallery-photo" src="galeri_2.jpg" alt="Photo de couple 2">
-            <img class="gallery-photo" src="galeri_3.jpg" alt="Photo de couple 3">
-            <img class="gallery-photo" src="galeri_4.jpg" alt="Photo de couple 4">
-            </div>
+        <h2>📸 En Değerli Anılarımız</h2>
+        <div class="glass-card">
+            <p style="text-align: center; margin-bottom: 20px;">Gözlerimdeki en güzel kareler...</p>
+            
+            <div class="photo-grid">
+                <img class="gallery-photo" src="galeri_1.jpg" alt="Photo de couple 1">
+                <img class="gallery-photo" src="galeri_2.jpg" alt="Photo de couple 2">
+                <img class="gallery-photo" src="galeri_3.jpg" alt="Photo de couple 3">
+                <img class="gallery-photo" src="galeri_4.jpg" alt="Photo de couple 4">
+                <img class="gallery-photo" src="galeri_5.jpg" alt="Photo de couple 5">
+                <img class="gallery-photo" src="galeri_6.jpg" alt="Photo de couple 6">
+                </div>
+        </div>
     </section>
 
     <section id="promises" class="section">
-        <h2>💍 Mustafa'nın Sözleri</h2>
+        <h2>💍 Mustafa'nın Sana Sözleri</h2>
         
-        <div class="story-item">
-            <h3>Her Zaman Dinleyeceğim</h3>
-            <p>Seni her zaman yargılamadan dinleyeceğime, zor zamanlarında ilk sığınacağın liman olacağıma söz veriyorum.</p>
+        <div class="glass-card">
+            <h3><span class="promise-icon">👂</span> Seni Hep Dinleyeceğim</h3>
+            <p>Sevinçte ve kederde, seni ilk dinleyecek kişi ben olacağım. Yargılamadan, sadece destek olmak için.</p>
         </div>
 
-        <div class="story-item">
-            <h3>Hayallerini Destekleyeceğim</h3>
-            <p>Tüm hayallerinin gerçekleşmesi için sana omuz vereceğime, başarılarınla en çok ben gurur duyacağıma söz veriyorum.</p>
+        <div class="glass-card">
+            <h3><span class="promise-icon">✨</span> Hayallerini Gerçekleştireceğiz</h3>
+            <p>Bütün hayallerinin arkasında dağ gibi duracağıma, her adımı birlikte atacağımıza söz veriyorum.</p>
         </div>
         
-        <div class="story-item" style="background-color: var(--primary-color); color: white;">
-            <h3 style="color: white; border-bottom: 1px dashed white;">Sana Daima Sadık Kalacağım</h3>
-            <p>Sonsuza dek kalbimin sadece sana ait olacağına, seni her gün daha çok seveceğime söz veriyorum. Seni Seviyorum, Dilaray!</p>
+        <div class="glass-card">
+            <h3><span class="promise-icon">♾️</span> Sonsuza Dek Seveceğim</h3>
+            <p>Bu kalbin sonsuza dek sadece sana ait olacağına, seni ilk günden daha çok seveceğime yemin ederim. Benim Güzel Dilara'm.</p>
+        </div>
+    </section>
+    
+    <section id="closer" class="section">
+        <h2>Sonsuz Aşk</h2>
+        <div class="glass-card" style="padding: 40px;">
+            <p id="closer-message">Seni seçtiğim için değil, sen benim seçimim olduğun için şanslıyım.</p>
+            <p style="font-size: 1rem; color: rgba(255, 255, 255, 0.7);">Bu küçük site, sana olan duygularımın sadece dijital bir kanıtı. Kalbimdeki asıl site çok daha büyük.</p>
+            <button class="secondary-btn">Mustafa ❤️ Dilara</button>
         </div>
     </section>
 
 
     <script>
+        // Fonction pour gérer la navigation entre les sections
         function showSection(sectionId, clickedElement) {
-            // 1. Cache toutes les sections
+            // Cache toutes les sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // 2. Désactive tous les boutons de navigation
+            // Désactive tous les boutons de navigation
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
 
-            // 3. Affiche la section demandée et la fait défiler
+            // Affiche la section demandée et la fait défiler
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
+                // Fait remonter la page en haut pour une expérience mobile fluide
                 window.scrollTo({
                     top: 0, 
                     behavior: 'smooth'
                 });
             }
 
-            // 4. Active le bouton de navigation cliqué
+            // Active le bouton de navigation cliqué
             if (clickedElement) {
                 clickedElement.classList.add('active');
             }
@@ -277,15 +375,14 @@
 
         // Initialisation: S'assurer que seule la page d'accueil est visible au début
         document.addEventListener('DOMContentLoaded', () => {
-            // S'assure que la navigation fonctionne dès le début
+            // Assure le bon état au démarrage
             document.querySelector('.nav-item.active').click(); 
 
-            // Optionnel: Démarre la musique si elle est présente (gestion des permissions)
+            // Optionnel: Démarre la musique (si vous avez un fichier musique.mp3 et que vous le décommentez)
             /*
-            const bgMusic = document.getElementById('bgMusic');
+            const bgMusic = document.getElementById('bgMusic'); 
             if (bgMusic) {
-                bgMusic.volume = 0.4;
-                // Tente de jouer, mais l'utilisateur devra peut-être interagir d'abord
+                bgMusic.volume = 0.5; 
                 bgMusic.play().catch(e => console.log("Musique bloquée, attente du clic utilisateur.", e)); 
             }
             */
