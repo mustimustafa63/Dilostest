@@ -226,13 +226,20 @@
     </style>
 </head>
 <body>
+    
+    <audio id="bgMusic" loop>
+        <source src="musique.mp3" type="audio/mpeg">
+        Tarayıcınız ses öğesini desteklemiyor.
+    </audio>
+
     <div class="card-container" id="mainContainer">
         <h1>Mustafa Dilaray'i ne kadar seviyor?</h1>
         
         <p id="promptMessage">Bakalım doğru cevabı bulabilecek misin? 👇</p>
 
         <div class="choices" id="choiceButtons">
-            </div>
+            
+        </div>
 
         <div id="progressBarContainer">
             <div id="progressBar"></div>
@@ -264,6 +271,9 @@
             "Emin değilim."
         ];
         
+        // Déclaration de l'élément audio (Décommenté)
+        const bgMusic = document.getElementById('bgMusic'); 
+
         const mainQuestion = "Mustafa Dilaray'i ne kadar seviyor?";
         const mainContainer = document.getElementById('mainContainer');
         const finalContent = document.getElementById('finalContent');
@@ -272,22 +282,21 @@
         const promptMessage = document.getElementById('promptMessage');
         const progressBar = document.getElementById('progressBar');
         const countdownText = document.getElementById('countdownText');
-        // const bgMusic = document.getElementById('bgMusic'); // Pour la musique
+        
 
         let currentLevel = 0;
         const MAX_LEVEL = loveLevels.length - 1;
-        const choicesPerLevel = 3; // Nombre de boutons affichés à chaque niveau
+        const choicesPerLevel = 3; 
 
         // --- Fonctions de base ---
 
         function renderChoices() {
-            choiceButtonsDiv.innerHTML = ''; // Vide les boutons précédents
+            choiceButtonsDiv.innerHTML = ''; 
             promptMessage.innerText = `Seviye ${currentLevel + 1}/${loveLevels.length}. Doğru cevabı bul!`;
 
             const correctText = loveLevels[currentLevel];
             let allTexts = [correctText];
 
-            // Ajoute des options incorrectes uniques pour ce niveau
             const availableIncorrects = [...incorrectOptions];
             for (let i = 0; i < choicesPerLevel - 1; i++) {
                 if (availableIncorrects.length > 0) {
@@ -313,17 +322,18 @@
             });
             
             updateProgressBar();
-            // Petite animation du bouton correct pour l'inciter (uniquement si pas au max)
+
             if (currentLevel < MAX_LEVEL) {
                  setTimeout(() => {
                     const correctBtn = document.getElementById('correctBtn');
                     if(correctBtn) {
-                        correctBtn.style.backgroundColor = varColor('--secondary-color');
+                        // Utilisation directe de la couleur pour le clignotement léger
+                        correctBtn.style.backgroundColor = '#ff9a8b'; 
                         correctBtn.style.color = 'white';
                         correctBtn.style.transform = 'scale(1.02)';
                         setTimeout(() => {
                              correctBtn.style.backgroundColor = '#f0f0f0';
-                             correctBtn.style.color = varColor('--text-color');
+                             correctBtn.style.color = '#333';
                              correctBtn.style.transform = 'scale(1)';
                         }, 300);
                     }
@@ -335,7 +345,7 @@
 
         function handleCorrectChoice(button) {
             button.classList.add('correct');
-            button.onclick = null; // Désactive le bouton
+            button.onclick = null; 
 
             setTimeout(() => {
                 currentLevel++;
@@ -343,18 +353,17 @@
                     showFinalContent();
                 } else {
                     promptMessage.innerText = `Harika! Ama daha fazlası var...`;
-                    renderChoices(); // Passe au niveau suivant
+                    renderChoices(); 
                 }
             }, 700);
         }
 
         function handleIncorrectChoice(button) {
             button.classList.add('incorrect');
-            button.innerText = "YANLIŞ! 😞"; // Feedback visuel
+            button.innerText = "YANLIŞ! 😞"; 
 
             setTimeout(() => {
                 button.classList.remove('incorrect');
-                // Réinitialise le texte du bouton ou le mélange à nouveau si nécessaire
                 renderChoices(); 
             }, 800);
         }
@@ -366,19 +375,19 @@
             setTimeout(() => {
                 mainContainer.style.display = 'none';
                 finalContent.style.display = 'flex';
-                startCountdown(3); // Compte à rebours avant la révélation de la photo
-            }, 500); // Temps pour l'animation de disparition de la carte
+                startCountdown(3); 
+            }, 500); 
 
-            // Optionnel: Jouer la musique à la fin si elle est configurée
-            // if (bgMusic) {
-            //     bgMusic.pause();
-            //     bgMusic.currentTime = 0;
-            // }
+            // Arrêt de la musique à la fin (Décommenté)
+            if (bgMusic) {
+                bgMusic.pause();
+                bgMusic.currentTime = 0;
+            }
         }
 
         function startCountdown(seconds) {
             finalMessageDiv.innerText = `DOĞRU CEVAP! ${loveLevels[MAX_LEVEL]}`;
-            couplePhoto.style.display = 'none'; // Cache la photo pendant le compte à rebours
+            couplePhoto.style.display = 'none'; 
 
             let count = seconds;
             countdownText.innerText = `Fotoğraf ${count} saniye içinde yüklenecek...`;
@@ -390,8 +399,8 @@
                 } else {
                     clearInterval(countdownInterval);
                     countdownText.style.display = 'none';
-                    couplePhoto.style.display = 'block'; // Affiche la photo
-                    createHearts(); // Lance la pluie de coeurs
+                    couplePhoto.style.display = 'block'; 
+                    createHearts(); 
                 }
             }, 1000);
         }
@@ -415,30 +424,25 @@
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
                 heart.innerHTML = '💖';
-                heart.style.left = Math.random() * 100 + "vw"; // Position X aléatoire
-                heart.style.animationDuration = Math.random() * 2 + 3 + "s"; // Durée de 3 à 5 secondes
+                heart.style.left = Math.random() * 100 + "vw"; 
+                heart.style.animationDuration = Math.random() * 2 + 3 + "s"; 
                 document.body.appendChild(heart);
 
-                setTimeout(() => heart.remove(), 4000); // Supprime le coeur après son animation
-            }, 150); // Toutes les 150ms
+                setTimeout(() => heart.remove(), 4000); 
+            }, 150); 
             
-            // Arrête la pluie de coeurs après un certain temps (ex: 15 secondes)
             setTimeout(() => clearInterval(heartInterval), 15000); 
-        }
-
-        // Aide pour récupérer les couleurs des variables CSS
-        function varColor(name) {
-            return getComputedStyle(document.documentElement).getPropertyValue(name);
         }
 
         // Initialisation au chargement
         window.onload = () => {
             renderChoices();
-            // Optionnel: Jouer la musique automatiquement (peut être bloqué par les navigateurs)
-            // if (bgMusic) {
-            //     bgMusic.volume = 0.5; // Ajuster le volume
-            //     bgMusic.play().catch(e => console.log("La musique n'a pas pu démarrer automatiquement:", e));
-            // }
+            // Lancement de la musique (Décommenté)
+            if (bgMusic) {
+                bgMusic.volume = 0.5; 
+                // Le catch permet de gérer le blocage du navigateur (elle devra cliquer une fois)
+                bgMusic.play().catch(e => console.log("La musique n'a pas pu démarrer automatiquement:", e)); 
+            }
         };
     </script>
 
