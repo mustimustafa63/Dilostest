@@ -485,58 +485,86 @@
         <img id="lightbox-img" src="" alt="Full view">
     </div>
 
-    <script>
-        // --- 1. NAVIGATION & ROUTING ---
+   <script>
+        // --- 1. NAVIGATION & ROUTING (CORRIGÉ) ---
         function navTo(sectionId, btnElement) {
-            // Cacher toutes les sections
-            document.querySelectorAll('.section').forEach(sec => {
-                sec.classList.remove('active');
-                // Petit hack pour redéclencher l'animation
-                setTimeout(() => sec.style.display = 'none', 600); 
-            });
-            
-            // Afficher la cible
             const target = document.getElementById(sectionId);
-            target.style.display = 'block';
-            // Force reflow
-            void target.offsetWidth;
-            target.classList.add('active');
+            
+            // Sécurité : si la section n'existe pas, on arrête
+            if (!target) return;
 
-            // Mise à jour de la navbar
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
+            // On traite toutes les sections
+            document.querySelectorAll('.section').forEach(sec => {
+                if (sec === target) {
+                    // C'est la section qu'on veut voir :
+                    // 1. On s'assure qu'elle est visible dans le DOM
+                    sec.style.display = 'block';
+                    
+                    // 2. Petit délai technique pour permettre au navigateur de calculer le rendu
+                    // avant d'ajouter la classe qui déclenche l'animation CSS
+                    requestAnimationFrame(() => {
+                        sec.classList.add('active');
+                    });
+                } else {
+                    // C'est une autre section, on la cache
+                    sec.classList.remove('active');
+                    
+                    // On attend la fin de l'animation CSS (0.6s) pour mettre display:none
+                    // MAIS on vérifie qu'elle n'est pas redevenue active entre temps (clics rapides)
+                    setTimeout(() => {
+                        if (!sec.classList.contains('active')) {
+                            sec.style.display = 'none';
+                        }
+                    }, 600);
+                }
+            });
 
+            // Mise à jour visuelle des boutons de navigation
+            if (btnElement) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            // Remonter en haut de page en douceur
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Initialize Home
+        // --- INIT AU CHARGEMENT ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Activer le bouton Home visuellement
             const homeBtn = document.querySelector('.nav-item');
             if(homeBtn) homeBtn.classList.add('active');
             
-            // Start Timer
-            setInterval(updateTimer, 1000);
-            updateTimer();
-            
-            // Start Background Particles
+            // S'assurer que la home est bien visible au départ sans attendre un clic
+            const homeSection = document.getElementById('home');
+            if(homeSection) {
+                homeSection.style.display = 'block';
+                setTimeout(() => homeSection.classList.add('active'), 10);
+            }
+
+            // Démarrage des scripts annexes
+            startTimer();
             createHearts();
         });
 
-        // --- 2. ADVANCED TIMER ---
-        function updateTimer() {
-            const startDate = new Date('2024-11-13T00:00:00').getTime();
-            const now = new Date().getTime();
-            const distance = now - startDate;
+        // --- 2. TIMER (MÊME LOGIQUE) ---
+        function startTimer() {
+            setInterval(() => {
+                const startDate = new Date('2024-11-13T00:00:00').getTime();
+                const now = new Date().getTime();
+                const distance = now - startDate;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById('d-days').innerText = days;
-            document.getElementById('d-hours').innerText = hours;
-            document.getElementById('d-minutes').innerText = minutes;
-            document.getElementById('d-seconds').innerText = seconds;
+                // Vérification que les éléments existent avant de les mettre à jour
+                if(document.getElementById('d-days')) document.getElementById('d-days').innerText = days;
+                if(document.getElementById('d-hours')) document.getElementById('d-hours').innerText = hours;
+                if(document.getElementById('d-minutes')) document.getElementById('d-minutes').innerText = minutes;
+                if(document.getElementById('d-seconds')) document.getElementById('d-seconds').innerText = seconds;
+            }, 1000);
         }
 
         // --- 3. LIGHTBOX LOGIC ---
@@ -544,34 +572,37 @@
         const lightboxImg = document.getElementById('lightbox-img');
 
         function openLightbox(src) {
-            lightboxImg.src = src;
-            lightbox.classList.add('active');
+            if(lightbox && lightboxImg) {
+                lightboxImg.src = src;
+                lightbox.classList.add('active');
+            }
         }
 
         function closeLightbox() {
-            lightbox.classList.remove('active');
+            if(lightbox) lightbox.classList.remove('active');
         }
 
-        // --- 4. BACKGROUND PARTICLES (PERFORMANCE OPTIMIZED) ---
+        // --- 4. BACKGROUND PARTICLES ---
         function createHearts() {
             const wrapper = document.getElementById('bg-wrapper');
+            if(!wrapper) return;
+            
             const symbols = ['❤️', '✨', '🌹'];
-            const count = 15; // Nombre de particules
+            const count = 15; 
 
             for (let i = 0; i < count; i++) {
                 const span = document.createElement('span');
                 span.classList.add('floating-heart');
                 span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
                 
-                // Randomize position and animation
                 const left = Math.random() * 100;
-                const animDuration = 10 + Math.random() * 20; // Entre 10s et 30s
+                const animDuration = 10 + Math.random() * 20; 
                 const delay = Math.random() * 10;
-                const size = 1 + Math.random() * 2; // Taille entre 1rem et 3rem
+                const size = 1 + Math.random() * 2; 
 
                 span.style.left = `${left}%`;
                 span.style.animationDuration = `${animDuration}s`;
-                span.style.animationDelay = `-${delay}s`; // Start immediately at random positions
+                span.style.animationDelay = `-${delay}s`;
                 span.style.fontSize = `${size}rem`;
                 
                 wrapper.appendChild(span);
