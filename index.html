@@ -2,386 +2,581 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sadece Dilara'ya | Sonsuz Aşk ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Sacramento&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. DESIGN SYSTEM / VARIABLES (Vieux Romantisme Moderne) --- */
+        /* --- 1. DESIGN SYSTEM (Premium Theme) --- */
         :root {
-            --primary-love: #6B0000; /* Rouge Bordeaux Profond */
-            --secondary-love: #E0C49F; /* Or Pâle / Champagne */
-            --background-dark: #333333; /* Gris Ardoise Foncée */
-            --text-light: #F0F0F0;
-            --glass-bg: rgba(224, 196, 159, 0.1); /* Verre teinté Champagne */
-            --border-radius-lg: 10px;
+            --primary-love: #8a0a0a; /* Rouge Rubis */
+            --primary-light: #b33939;
+            --accent-gold: #d4af37; /* Or Métallique */
+            --accent-champagne: #f3e5ab;
+            --bg-dark: #1a1a1a;
+            --text-main: #f5f5f5;
+            --text-muted: #dcdcdc;
+            
+            /* Glassmorphism Variables */
+            --glass-bg: rgba(26, 26, 26, 0.6);
+            --glass-border: rgba(212, 175, 55, 0.3);
+            --glass-shine: rgba(255, 255, 255, 0.05);
+            --blur-amount: 12px;
+            
+            --nav-height: 70px;
+            --radius-xl: 20px;
+            --radius-md: 12px;
+            
             --font-serif: 'Playfair Display', serif;
             --font-script: 'Sacramento', cursive;
-            --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.5);
-            --glow-soft: 0 0 10px var(--secondary-love), 0 0 5px var(--primary-love);
+            --font-sans: 'Montserrat', sans-serif;
+            
+            --shadow-glow: 0 0 20px rgba(138, 10, 10, 0.4);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* --- 2. FOND ET GLOBAL --- */
+        /* --- 2. GLOBAL RESET & BASE --- */
+        * { box-sizing: border-box; }
+        
         body {
             margin: 0;
-            font-family: var(--font-serif);
-            color: var(--text-light);
-            background-color: var(--background-dark);
-            line-height: 1.6;
+            font-family: var(--font-sans);
+            color: var(--text-main);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
             overflow-x: hidden;
             min-height: 100vh;
-            position: relative;
-            z-index: 1;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .animated-bg {
+        /* --- 3. ANIMATED BACKGROUND --- */
+        .bg-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Gradient chaud et profond (simulant le velours/la bougie) */
-            background: linear-gradient(180deg, #331111 0%, var(--background-dark) 50%, #331111 100%);
-            background-size: 100% 400%;
-            animation: gradientShift 40s ease infinite;
-            opacity: 0.9; 
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #2c0505 0%, #0f0f0f 100%);
+            overflow: hidden;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 0% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-        
-        /* Pattern subtil (Simulant une texture de papier ancien) */
-        .heart-pattern {
+        .floating-heart {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Cpath fill='%23E0C49F' fill-opacity='0.1' d='M50 85L45 80C28 64 12 49 12 35C12 21 21 12 35 12C42 12 47 16 50 21C53 16 58 12 65 12C79 12 88 21 88 35C88 49 72 64 55 80L50 85Z'/%3E%3C/svg%3E");
-            background-size: 60px 60px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.7;
+            color: rgba(212, 175, 55, 0.1);
+            font-size: 2rem;
+            animation: floatUp 15s linear infinite;
+            bottom: -50px;
         }
 
-        /* --- 3. NAVIGATION (FIXED BOTTOM) --- */
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- 4. NAVIGATION (MODERN GLASS) --- */
         #navbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            height: var(--nav-height);
+            background: rgba(40, 40, 40, 0.85);
+            backdrop-filter: blur(var(--blur-amount));
+            -webkit-backdrop-filter: blur(var(--blur-amount));
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
             display: flex;
             justify-content: space-around;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 5px 0;
-            /* Liquid Glass teinté */
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: blur(8px); 
-            backdrop-filter: blur(8px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
-            z-index: 100;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 0 10px;
         }
 
         .nav-item {
-            flex-grow: 1;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 0.75rem; /* Réduit un peu pour 6 onglets */
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.7rem;
             cursor: pointer;
-            transition: color 0.3s ease, transform 0.2s ease;
+            transition: var(--transition-smooth);
+            padding: 10px;
+            border-radius: 50%;
+            width: 60px;
         }
+
+        .nav-item i { font-size: 1.2rem; margin-bottom: 4px; } /* Pour icônes si ajoutées */
+        
+        .nav-item:hover { color: var(--accent-champagne); }
 
         .nav-item.active {
-            color: var(--secondary-love);
-            font-weight: 700;
-            border-bottom: 2px solid var(--secondary-love);
-            text-shadow: 0 0 5px var(--secondary-love); 
+            color: var(--accent-gold);
+            transform: translateY(-5px);
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
-        /* --- 4. SECTIONS & CARTES (Velours/Parchemin) --- */
+        /* --- 5. SECTIONS --- */
         .section {
-            padding: 80px 20px 100px 20px;
-            min-height: calc(100vh - 180px);
+            min-height: 100vh;
+            padding: 40px 20px 100px 20px; /* Padding bottom grand pour la nav */
+            display: none; /* JS gérera l'affichage */
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            display: none;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .section.active {
-            opacity: 1;
-            transform: translateY(0);
             display: block;
+            animation: fadeInSection 0.8s forwards;
         }
+
+        @keyframes fadeInSection {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3 { margin: 0; }
 
         h2 {
             font-family: var(--font-script);
-            font-size: 3.5rem; 
-            color: var(--secondary-love);
-            text-shadow: var(--glow-soft); 
-            margin-bottom: 30px;
+            font-size: 3.8rem;
+            color: var(--accent-gold);
             text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(to right, var(--accent-champagne), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.3));
         }
 
+        /* --- 6. COMPONENTS (CARDS & UTILS) --- */
         .glass-card {
-            background: rgba(107, 0, 0, 0.4); /* Bordeaux translucide (Velours) */
-            -webkit-backdrop-filter: blur(5px);
-            backdrop-filter: blur(5px);
-            border: 1px solid var(--secondary-love); /* Bordure Or/Champagne */
-            border-radius: var(--border-radius-lg);
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: var(--shadow-soft); 
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -50%;
+            width: 100%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+
         .glass-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(224, 196, 159, 0.3); /* Lueur au survol */
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-color: var(--accent-gold);
         }
-        
+
+        .glass-card:hover::before { left: 100%; }
+
         .glass-card h3 {
             font-family: var(--font-serif);
-            color: var(--secondary-love);
-            font-size: 1.5rem;
-            margin-top: 0;
-            text-shadow: 0 0 5px var(--secondary-love);
+            color: var(--accent-champagne);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 10px;
         }
-        
-        /* --- 5. COMPOSANTS SPÉCIFIQUES --- */
 
-        /* ACCUEIL */
+        /* --- HOME --- */
         #home {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding-top: 35vh; 
+            padding-bottom: 120px; 
         }
 
         #home-title {
             font-family: var(--font-script);
-            font-size: 4rem;
-            color: var(--secondary-love);
-            text-shadow: var(--glow-soft); 
-            margin-bottom: 5px;
-            line-height: 1.1;
+            font-size: 5rem;
+            color: var(--primary-love);
+            text-shadow: 0 0 20px rgba(138, 10, 10, 0.8);
+            margin-bottom: 10px;
+            line-height: 1.2;
         }
-        
-        .cta-btn {
-            background-color: var(--primary-love);
-            color: var(--secondary-love); 
-            border: 2px solid var(--secondary-love);
-            padding: 12px 30px;
+
+        .subtitle {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .btn-glow {
+            padding: 15px 40px;
+            border: none;
+            outline: none;
+            color: #fff;
+            background: linear-gradient(45deg, #6B0000, #a80000);
             border-radius: 50px;
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: var(--glow-soft); 
-            transition: all 0.3s ease;
+            position: relative;
+            z-index: 0;
+            transition: var(--transition-smooth);
+            box-shadow: 0 0 20px rgba(107, 0, 0, 0.5);
+        }
+
+        .btn-glow:before {
+            content: '';
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            position: absolute;
+            top: -2px; left: -2px; background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            width: calc(100% + 4px); height: calc(100% + 4px);
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            border-radius: 50px;
+            transition: opacity .3s ease-in-out;
+        }
+
+        .btn-glow:hover:before { opacity: 0.7; }
+        .btn-glow:hover { transform: scale(1.05); }
+
+        /* --- VIDEO WRAPPER --- */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .video-wrapper iframe {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* --- TIMER --- */
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            text-align: center;
             margin-top: 20px;
         }
-
-        .cta-btn:hover {
-            transform: scale(1.05);
-            background-color: var(--secondary-love);
-            color: var(--primary-love);
+        .timer-box {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
         }
-
-        /* HIKAYEMIZ */
-        .story-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-top: 15px;
-            border: 3px solid var(--secondary-love); 
-        }
-
-        /* COMPTEUR DE JOURS (Zaman Sayacı) */
-        #days-since {
-            font-family: var(--font-serif);
-            font-size: 4rem; 
-            font-weight: 900;
-            color: var(--secondary-love);
-            text-shadow: 0 0 15px var(--secondary-love); 
-            margin-top: 20px;
-            margin-bottom: 20px;
+        .timer-val {
             display: block;
-            line-height: 1;
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
         }
-        #counter-label {
-            font-family: var(--font-script);
-            font-size: 2.5rem;
-            color: var(--secondary-love);
-            margin-bottom: 10px;
+        .timer-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
         }
 
+        /* --- GALLERY --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 200px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            cursor: zoom-in;
+            border: 2px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* --- MODAL LIGHTBOX --- */
+        #lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #lightbox.active { opacity: 1; pointer-events: all; }
+        #lightbox img {
+            max-width: 90%; max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.active img { transform: scale(1); }
+        .close-lightbox {
+            position: absolute; top: 30px; right: 30px;
+            color: #fff; font-size: 3rem; cursor: pointer;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            h2 { font-size: 2.8rem; }
+            #home-title { font-size: 3.5rem; }
+            .timer-val { font-size: 1.5rem; }
+            .timer-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            #navbar { width: 95%; bottom: 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="animated-bg"></div>
-    <div class="heart-pattern"></div>
+    <div class="bg-wrapper" id="bg-wrapper">
+        </div>
 
     <nav id="navbar">
-        <div class="nav-item active" onclick="showSection('home', this)">Ana Sayfa</div>
-        <div class="nav-item" onclick="showSection('story', this)">Hikayemiz</div>
-        <div class="nav-item" onclick="showSection('timer', this)">Zaman Sayacı</div> 
-        <div class="nav-item" onclick="showSection('gallery', this)">Galeri</div>
-        <div class="nav-item" onclick="showSection('promises', this)">Sözlerim</div>
-        <div class="nav-item" onclick="window.location.href='kalp_reaktor.html'">
-            ❤️ Reaktör
+        <div class="nav-item active" onclick="navTo('home', this)">Ana Sayfa</div>
+        <div class="nav-item" onclick="navTo('story', this)">Hikayemiz</div>
+        <div class="nav-item" onclick="navTo('timer', this)">Zaman</div>
+        <div class="nav-item" onclick="navTo('gallery', this)">Galeri</div>
+        <div class="nav-item" onclick="navTo('promises', this)">Sözlerim</div>
+        <div class="nav-item" onclick="window.location.href='kalp_reaktor.html'" style="color: var(--primary-light);">
+            Reaktör ❤️
         </div>
     </nav>
 
     <section id="home" class="section active">
         <h1 id="home-title">Sevgili Dilara'm</h1>
-        <p style="font-size: 1.3rem; font-weight: 400; font-family: var(--font-serif);">Kalbimdeki en güzel şiirin adı sensin.</p>
-        <button class="cta-btn" onclick="showSection('story', document.querySelector('.nav-item:nth-child(2)'))">Hikayemizi Keşfet 💌</button>
+        <p class="subtitle">Kalbimdeki en güzel şiirin adı sensin.</p>
+        <button class="btn-glow" onclick="navTo('story', document.querySelectorAll('.nav-item')[1])">
+            Hikayemizi Keşfet 💌
+        </button>
     </section>
 
     <section id="story" class="section">
         <h2>Hikayemizin Videosu</h2>
         
-        <div class="glass-card" style="padding: 15px; margin-bottom: 30px;">
-            <div style="position: relative; width: 100%; padding-top: 56.25%;"> 
-                <iframe 
-                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 5px;"
-                    src="https://www.youtube.com/embed/NHTrguAP2Vs" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
+        <div class="glass-card">
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/NHTrguAP2Vs" frameborder="0" allowfullscreen></iframe>
             </div>
-            <p style="text-align: center; margin-top: 15px; font-style: italic; color: var(--secondary-love);">Bu video, kelimelerin yetersiz kaldığı anlarımızı anlatıyor.</p>
+            <p style="text-align: center; margin-top: 15px; font-style: italic; color: var(--accent-champagne);">
+                "Kelimelerin bittiği yerde, aşkımız konuşur."
+            </p>
         </div>
 
-        <div class="glass-card story-item">
+        <div class="glass-card">
             <h3>İlk Buluşmamız</h3>
-            <p>Seni ilk gördüğüm an, zamanın durduğu andı. O günden beri her şeyin anlamı değişti.</p>
+            <p>Seni ilk gördüğüm an, dünya yavaşladı sanki. O günden beri kalbim sadece senin ritminle atıyor. Her bakışın, ruhuma dokunan bir hediye.</p>
         </div>
-
-        <div class="glass-card story-item">
-            <h3>Sonsuza Giden Yolculuk</h3>
-            <p>Her zorlukta el ele, her başarıda yan yana. Bizim hikayemiz sadece başladı.</p>
+        
+        <div class="glass-card">
+            <h3>Sonsuz Yolculuk</h3>
+            <p>Bu sadece bir başlangıç Dilara. Ellerimiz hiç ayrılmayacak, gözlerimiz hep birbirini arayacak.</p>
         </div>
     </section>
 
     <section id="timer" class="section">
-        <h2>Zaman Sayacı</h2>
-        <div class="glass-card" style="text-align: center; padding: 40px;">
-            <p id="counter-label">Birlikte Geçirdiğimiz Gün Sayısı:</p>
-            <span id="days-since">0</span>
-            <p style="font-size: 1.2rem; color: var(--secondary-love); margin-top: 20px;">
-                Her geçen gün, aşkımız daha da derinleşiyor.
+        <h2>Birlikte Geçen Her An</h2>
+        <div class="glass-card" style="text-align: center;">
+            <p style="margin-bottom: 20px; color: var(--text-muted);">13 Kasım 2024'ten beri...</p>
+            
+            <div class="timer-grid">
+                <div class="timer-box">
+                    <span class="timer-val" id="d-days">0</span>
+                    <span class="timer-label">Gün</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-val" id="d-hours">0</span>
+                    <span class="timer-label">Saat</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-val" id="d-minutes">0</span>
+                    <span class="timer-label">Dakika</span>
+                </div>
+                <div class="timer-box">
+                    <span class="timer-val" id="d-seconds">0</span>
+                    <span class="timer-label">Saniye</span>
+                </div>
+            </div>
+            
+            <p style="margin-top: 25px; font-family: var(--font-script); font-size: 1.8rem; color: var(--primary-light);">
+                Her saniye seni daha çok seviyorum.
             </p>
         </div>
-        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">(Başlangıç Tarihi: 13 Kasım 2024)</p>
     </section>
 
     <section id="gallery" class="section">
         <h2>En Değerli Anılarımız</h2>
         <div class="glass-card">
-            <p style="text-align: center; margin-bottom: 20px; color: var(--secondary-love);">Gözlerimdeki en güzel kareler...</p>
-            
-            <div class="photo-grid">
-                <img class="gallery-photo" src="galeri_1.jpg" alt="Photo de couple 1">
-                <img class="gallery-photo" src="galeri_2.jpg" alt="Photo de couple 2">
-                <img class="gallery-photo" src="galeri_3.jpg" alt="Photo de couple 3">
-                <img class="gallery-photo" src="galeri_4.jpg" alt="Photo de couple 4">
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=400&auto=format&fit=crop" alt="Memory 1">
+                </div>
+                <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?q=80&w=400&auto=format&fit=crop" alt="Memory 2">
+                </div>
+                <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://images.unsplash.com/photo-1522673607200-1645062cd958?q=80&w=400&auto=format&fit=crop" alt="Memory 3">
+                </div>
+                <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop" alt="Memory 4">
+                </div>
             </div>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; opacity: 0.6;">(Resme tıklayarak büyütebilirsin aşkım)</p>
         </div>
     </section>
 
     <section id="promises" class="section">
-        <h2>Mustafa'nın Sana Sözleri</h2>
+        <h2>Sana Sözlerim</h2>
         
         <div class="glass-card">
             <h3>Seni Sonsuza Dek Seveceğim</h3>
-            <p>Bu kalbin sonsuza dek sadece sana ait olacağına, seni ilk günden daha çok seveceğime yemin ederim.</p>
+            <p>Bu kalp attığı sürece, içinde sadece sen olacaksın. İyi günde, kötü günde, her nefeste seni seveceğime yemin ederim.</p>
         </div>
 
         <div class="glass-card">
-            <h3>Hayallerini Gerçekleştireceğiz</h3>
-            <p>Bütün hayallerinin arkasında dağ gibi duracağıma, her adımı birlikte atacağımıza söz veriyorum.</p>
+            <h3>Hayallerimiz Bir</h3>
+            <p>Senin hayallerin benim amacım. Düştüğünde kaldıran, uçtuğunda yanında süzülen ben olacağım. Mustafa her zaman Dilara'nın yanında olacak.</p>
         </div>
-    </section>
-    
-    <section id="closer" class="section">
-        <h2>Seninle Her Şey Güzel</h2>
-        <div class="glass-card" style="padding: 40px; text-align: center;">
-            <p style="font-family: var(--font-script); font-size: 2.5rem; color: var(--secondary-love);">Sen benim en güzel rüyamsın.</p>
-            <p style="font-size: 1rem; color: var(--text-light); opacity: 0.8;">Mustafa ❤️ Dilara</p>
+
+        <div class="glass-card" style="border-color: var(--primary-love); background: rgba(107, 0, 0, 0.2);">
+            <div style="text-align: center;">
+                <p style="font-family: var(--font-script); font-size: 2.5rem; margin-bottom: 0;">Seni Seviyorum</p>
+                <p>Mustafa ❤️ Dilara</p>
+            </div>
         </div>
     </section>
 
+    <div id="lightbox" onclick="closeLightbox()">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="Full view">
+    </div>
 
     <script>
-        // --- LOGIQUE DE NAVIGATION ---
-        function showSection(sectionId, clickedElement) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+        // --- 1. NAVIGATION & ROUTING ---
+        function navTo(sectionId, btnElement) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.classList.remove('active');
+                // Petit hack pour redéclencher l'animation
+                setTimeout(() => sec.style.display = 'none', 600); 
             });
             
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
+            // Afficher la cible
+            const target = document.getElementById(sectionId);
+            target.style.display = 'block';
+            // Force reflow
+            void target.offsetWidth;
+            target.classList.add('active');
 
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-                // FIX pour le défilement au sommet
-                window.scrollTo({
-                    top: 0, 
-                    behavior: 'smooth'
-                });
-            }
+            // Mise à jour de la navbar
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
 
-            if (clickedElement && clickedElement.getAttribute('onclick').includes('showSection')) {
-                clickedElement.classList.add('active');
-            }
-        }
-        
-        // --- LOGIQUE DU COMPTEUR DE JOURS ---
-        function updateDaysCounter() {
-            // Date de rencontre : 13 novembre 2024
-            const meetingDate = new Date('2024-11-13T00:00:00'); 
-            const now = new Date();
-            
-            // Calculer la différence en millisecondes
-            const diffTime = Math.abs(now.getTime() - meetingDate.getTime());
-            
-            // Convertir les millisecondes en jours
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-            
-            // Mettre à jour l'élément HTML
-            const daysElement = document.getElementById('days-since');
-            if (daysElement) {
-                daysElement.textContent = diffDays;
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-
-        // --- DÉMARRAGE DU SITE ---
+        // Initialize Home
         document.addEventListener('DOMContentLoaded', () => {
-             // Initialise la page d'accueil
-            const firstNavItem = document.querySelector('.nav-item');
-            if(firstNavItem) {
-                 showSection('home', firstNavItem);
-            }
+            const homeBtn = document.querySelector('.nav-item');
+            if(homeBtn) homeBtn.classList.add('active');
             
-            // Démarre le compteur immédiatement
-            updateDaysCounter();
+            // Start Timer
+            setInterval(updateTimer, 1000);
+            updateTimer();
             
-            // Met à jour le compteur toutes les heures (ou 60 minutes) pour la précision
-            setInterval(updateDaysCounter, 1000 * 60 * 60); 
+            // Start Background Particles
+            createHearts();
         });
+
+        // --- 2. ADVANCED TIMER ---
+        function updateTimer() {
+            const startDate = new Date('2024-11-13T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = now - startDate;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('d-days').innerText = days;
+            document.getElementById('d-hours').innerText = hours;
+            document.getElementById('d-minutes').innerText = minutes;
+            document.getElementById('d-seconds').innerText = seconds;
+        }
+
+        // --- 3. LIGHTBOX LOGIC ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        function openLightbox(src) {
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // --- 4. BACKGROUND PARTICLES (PERFORMANCE OPTIMIZED) ---
+        function createHearts() {
+            const wrapper = document.getElementById('bg-wrapper');
+            const symbols = ['❤️', '✨', '🌹'];
+            const count = 15; // Nombre de particules
+
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.classList.add('floating-heart');
+                span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                // Randomize position and animation
+                const left = Math.random() * 100;
+                const animDuration = 10 + Math.random() * 20; // Entre 10s et 30s
+                const delay = Math.random() * 10;
+                const size = 1 + Math.random() * 2; // Taille entre 1rem et 3rem
+
+                span.style.left = `${left}%`;
+                span.style.animationDuration = `${animDuration}s`;
+                span.style.animationDelay = `-${delay}s`; // Start immediately at random positions
+                span.style.fontSize = `${size}rem`;
+                
+                wrapper.appendChild(span);
+            }
+        }
     </script>
 </body>
 </html>
